@@ -16,9 +16,12 @@ function App() {
   const myAddTask = (task) => {
     setAddTaskLoading(true);
     addTask(task).then((doc) => {
-      setTasks([{ id: doc.id, ...task }, ...tasks]);
-      setAddTaskLoading(false);
-      alert("Ticket ajouté avec succes");
+      getTasks().then((tasks) => {
+        setTasks(tasks);
+
+        setAddTaskLoading(false);
+        alert("Ticket ajouté avec succes");
+      });
     });
   };
   console.log({ tasks });
