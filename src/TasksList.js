@@ -57,7 +57,9 @@ function TasksList({ tasks }) {
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <dd style={{ fontWeight: "bold", flex: 1 }}>Deadline</dd>
                 <dl style={{ flex: 4 }}>
-                  {formatDate(toJMA(task.deadline?.toDate()))}
+                  {formatDate(
+                    toJMA(task.deadline?.toDate && task.deadline?.toDate())
+                  )}
                 </dl>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
