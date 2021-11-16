@@ -31,7 +31,13 @@ function App() {
       ) : (
         <AddTaskForm addTask={myAddTask} />
       )}
-      <TasksList tasks={tasks} />
+      {loading ? (
+        <div className="alert alert-info" role="alert">
+          Loading...
+        </div>
+      ) : (
+        <TasksList tasks={tasks} />
+      )}
     </div>
   );
 }
