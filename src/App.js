@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect, useState } from "react";
+import AddTaskForm from "./AddTaskForm";
+import { addTask, getTasks } from "./firebase";
+import TasksList from "./TasksList";
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [addTaskloading, setAddTaskLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    getTasks().then((tasks) => {
+      setTasks(tasks);
+      setLoading(false);
+    });
+  }, []);
+  const myAddTask = (task) => {
+    setAddTaskLoading(true);
+    addTask(task).then((doc) => {
+      setTasks([{ id: doc.id, ...task }, ...tasks]);
+      setAddTaskLoading(false);
+      alert("Ticket ajouté avec succes");
+    });
+  };
+  console.log({ tasks });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {addTaskloading ? (
+        <div className="alert alert-info" role="alert">
+          Création du ticket
+        </div>
+      ) : (
+        <AddTaskForm addTask={myAddTask} />
+      )}
+      <TasksList tasks={tasks} />
     </div>
   );
 }
